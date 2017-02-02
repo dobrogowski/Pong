@@ -6,10 +6,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -17,8 +14,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.io.File;
 
 public class Main extends Application
 {
@@ -48,14 +43,12 @@ public class Main extends Application
     // promień kulki
     double radiusBall = 10;
 
-    private enum UserAction {NONE, LEFT, RIGHT, A, D}
-    private UserAction action = UserAction.NONE;
+    public enum UserAction {NONE, LEFT, RIGHT, A, D}
+    public UserAction action = UserAction.NONE;
 
-    private IntegerProperty scoreUp = new SimpleIntegerProperty();
-    private IntegerProperty scoreDown = new SimpleIntegerProperty();
-    private IntegerProperty timer = new SimpleIntegerProperty();
-
-
+    public IntegerProperty scoreUp = new SimpleIntegerProperty();
+    public IntegerProperty scoreDown = new SimpleIntegerProperty();
+    public IntegerProperty timer = new SimpleIntegerProperty();
 
 
     public static void main(String[] args)
@@ -68,11 +61,9 @@ public class Main extends Application
     {
         MusicPlayer musicPlayer = new MusicPlayer();
 
-        primaryStage.setTitle("Pong"); // wyświetla tytuł na górnej belce
         Scene scene = new Scene(content(), szerokosc + 200, wysokosc); // definiuje scenę o określonym rozmiarze
         scene.setFill(Color.BLACK); // kolor tła
-        primaryStage.setScene(scene); // wyświetla scenę
-        primaryStage.show();  // wyświetla okno
+        MyScene myScene = new MyScene(scene,primaryStage);
 
 
         scene.setOnKeyPressed(event ->
@@ -121,99 +112,39 @@ public class Main extends Application
     {
 
         Pane pane = new Pane();
-
-
         // kulka
-        Circle ball = new Circle(randomBall_X, randomBall_Y, radiusBall); // deklaracja kulki: X, Y, wielkość
-        ball.setFill(Color.WHITE); // kolor kulki
-
+        Circle ball = new Circle(randomBall_X, randomBall_Y, radiusBall); // deklaracja kulki: X, Y, wielkość;
         // bloczek dolny
         Rectangle batDown = new Rectangle(batSzerokosc, batWysokosc);
-        batDown.setTranslateX(szerokosc/2); // współrzędne bloczka dolnego
-        batDown.setTranslateY(wysokosc-40);
-        batDown.setFill(Color.RED);
-
         //bloczek górny
         Rectangle batUp = new Rectangle(batSzerokosc, batWysokosc);
-        batUp.setTranslateX(szerokosc/2); //współrzędne bloczka górnego
-        batUp.setTranslateY(wysokosc-780);
-        batUp.setFill(Color.BLUE);
-
         //przeskoda 1
         Rectangle trap = new Rectangle(300, 20);
-        trap.setTranslateX(randomTrap_1_X); //współrzędne przeszkody
-        trap.setTranslateY(randomTrap_1_Y);
-        trap.setFill(Color.WHITE);
-
         // wyświetlanie linii poziomej i kropki
-        Line linia = new Line(0, 400,600, 400);
-        linia.setStroke(Color.WHITE);
+        Line linia = new Line(0, 400, 600, 400);
         Line linia2 = new Line(szerokosc, 0, szerokosc, wysokosc);
-        linia2.setStroke(Color.WHITE);
-        Circle point = new Circle(szerokosc/2, wysokosc/2, 5);
-        point.setFill(Color.WHITE);
-
+        Circle point = new Circle(szerokosc / 2, wysokosc / 2, 5);
         //punktacja górna
         Text textScoreUp = new Text();
-        textScoreUp.setTranslateX(10);
-        textScoreUp.setTranslateY(30);
-        textScoreUp.setFont(Font.font(20));
-        textScoreUp.setFill(Color.WHITE);
-        textScoreUp.textProperty().bind(scoreUp.asString("Score: [%d]"));
-
         //punktacja dolna
         Text textScoreDown = new Text();
-        textScoreDown.setTranslateX(10);
-        textScoreDown.setTranslateY(780);
-        textScoreDown.setFont(Font.font(20));
-        textScoreDown.setFill(Color.WHITE);
-        textScoreDown.textProperty().bind(scoreDown.asString("Score: [%d]"));
-
         //wyświetlenie zagara
         Text textTimer = new Text();
-        textTimer.setTranslateX(650);
-        textTimer.setTranslateY(400);
-        textTimer.setFont(Font.font(50));
-        textTimer.setFill(Color.WHITE);
-        textTimer.textProperty().bind(timer.asString("[%d]"));
-
         //górny opis sterowania
         Text controlsUp = new Text("[A] LEFT  |  RIGHT [D]");
-        controlsUp.setTranslateX(620);
-        controlsUp.setTranslateY(30);
-        controlsUp.setFont(Font.font(16));
-        controlsUp.setFill(Color.WHITE);
-
         //dolnt opis sterowania
         Text controlsDown = new Text("[<--] LEFT  |  RIGHT [-->]");
-        controlsDown.setTranslateX(620);
-        controlsDown.setTranslateY(770);
-        controlsDown.setFont(Font.font(16));
-        controlsDown.setFill(Color.WHITE);
-
-        // wyświetlenie elementów
-        pane.getChildren().add(ball);
-        pane.getChildren().add(batUp);
-        pane.getChildren().add(batDown);
-        pane.getChildren().add(linia);
-        pane.getChildren().add(linia2);
-        pane.getChildren().add(point);
-        pane.getChildren().add(trap);
-        pane.getChildren().add(textScoreUp);
-        pane.getChildren().add(textScoreDown);
-        pane.getChildren().add(textTimer);
-        pane.getChildren().add(controlsUp);
-        pane.getChildren().add(controlsDown);
-
-
         //animacja i sterowanie
+        ObjectCreator objectCreator = new ObjectCreator(pane,ball,batDown,batUp,trap,linia,linia2,point,textScoreUp,textScoreDown,textTimer,controlsUp,controlsDown);
+        textScoreUp.textProperty().bind(scoreUp.asString("Score: [%d]"));
+        textScoreDown.textProperty().bind(scoreDown.asString("Score: [%d]"));
+        textTimer.textProperty().bind(timer.asString("[%d]"));
         AnimationTimer animationBall = new AnimationTimer()
         {
             @Override
             public void handle(long now)
             {
                 // animacja kulki
-
                 //odbijanie od ścian
                 if (ball.getTranslateX() >= (szerokosc - randomBall_X) - radiusBall || ball.getTranslateX() <= -randomBall_X + radiusBall )
                 {
@@ -261,7 +192,6 @@ public class Main extends Application
                 if (ball.getTranslateY() >= (wysokosc - randomBall_Y) - radiusBall && ball.getTranslateY() <= (wysokosc - randomBall_Y) - radiusBall + 5)
                 {
                     scoreUp.set(scoreUp.get() + 1);
-
                     polozenieX = 100;
                     ball.setTranslateX(polozenieX);
                     polozenieY = 100;
@@ -286,14 +216,12 @@ public class Main extends Application
                 polozenieY = polozenieY + zmianaY;
                 ball.setTranslateY(polozenieY);
 
-
-                timer.set(timer.get() - 1);
+                timer.set(timer.get() + 1);
 
 
             }
 
         };
-
         //animacja i sterowanie bloczkami
         AnimationTimer animationBatt = new AnimationTimer()
         {
@@ -338,7 +266,6 @@ public class Main extends Application
 
         animationBall.start();
         animationBatt.start();
-
         return pane;
     }
 }
