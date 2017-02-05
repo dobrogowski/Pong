@@ -1,7 +1,6 @@
 package com.company;
 
 
-import javafx.animation.AnimationTimer;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -11,9 +10,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 
-public class ObjectCreator extends Main {
+public class ObjectCreator extends Main
+{
     
-    public ObjectCreator(Pane pane, Circle ball, Rectangle batDown, Rectangle batUp, Rectangle trap, Line linia, Line linia2, Circle point, Text textScoreUp, Text textScoreDown, Text textTimer, Text controlsUp, Text controlsDown) {
+    public ObjectCreator(Pane pane, Circle ball, Rectangle batDown, Rectangle batUp, Rectangle trap, Line linia, Line linia2, Circle point, Text textScoreUp, Text textScoreDown, Text textTimer, Text controlsUp, Text controlsDown)
+    {
         
         ball.setFill(javafx.scene.paint.Color.WHITE); // kolor kulki
         
@@ -49,6 +50,7 @@ public class ObjectCreator extends Main {
         textTimer.setTranslateY(400);
         textTimer.setFont(Font.font(50));
         textTimer.setFill(Color.WHITE);
+
 
         
         controlsUp.setTranslateX(620);

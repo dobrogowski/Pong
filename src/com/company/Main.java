@@ -11,7 +11,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -48,8 +47,7 @@ public class Main extends Application
 
     public IntegerProperty scoreUp = new SimpleIntegerProperty();
     public IntegerProperty scoreDown = new SimpleIntegerProperty();
-    public IntegerProperty timer = new SimpleIntegerProperty();
-
+    public long start = System.nanoTime();
 
     public static void main(String[] args)
     {
@@ -107,7 +105,6 @@ public class Main extends Application
         });
     }
 
-
     private Parent content()
     {
 
@@ -149,7 +146,6 @@ public class Main extends Application
         ObjectCreator objectCreator = new ObjectCreator(pane,ball,batDown,batUp,trap,linia,linia2,point,textScoreUp,textScoreDown,textTimer,controlsUp,controlsDown);
         textScoreUp.textProperty().bind(scoreUp.asString("Score: [%d]"));
         textScoreDown.textProperty().bind(scoreDown.asString("Score: [%d]"));
-        textTimer.textProperty().bind(timer.asString("[%d]"));
         AnimationTimer animationBall = new AnimationTimer()
         {
             @Override
@@ -227,7 +223,8 @@ public class Main extends Application
                 polozenieY = polozenieY + zmianaY;
                 ball.setTranslateY(polozenieY);
 
-                timer.set(timer.get() + 1);
+                //licznik czasu gry
+                textTimer.setText(String.valueOf((System.nanoTime() - start)/1000000000));
 
 
             }
