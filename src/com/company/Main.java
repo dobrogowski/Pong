@@ -112,28 +112,39 @@ public class Main extends Application
     {
 
         Pane pane = new Pane();
+
         // kulka
         Circle ball = new Circle(randomBall_X, randomBall_Y, radiusBall); // deklaracja kulki: X, Y, wielkość;
+
         // bloczek dolny
         Rectangle batDown = new Rectangle(batSzerokosc, batWysokosc);
+
         //bloczek górny
         Rectangle batUp = new Rectangle(batSzerokosc, batWysokosc);
+
         //przeskoda 1
         Rectangle trap = new Rectangle(300, 20);
+
         // wyświetlanie linii poziomej i kropki
         Line linia = new Line(0, 400, 600, 400);
         Line linia2 = new Line(szerokosc, 0, szerokosc, wysokosc);
         Circle point = new Circle(szerokosc / 2, wysokosc / 2, 5);
+
         //punktacja górna
         Text textScoreUp = new Text();
+
         //punktacja dolna
         Text textScoreDown = new Text();
+
         //wyświetlenie zagara
         Text textTimer = new Text();
+
         //górny opis sterowania
         Text controlsUp = new Text("[A] LEFT  |  RIGHT [D]");
+
         //dolnt opis sterowania
         Text controlsDown = new Text("[<--] LEFT  |  RIGHT [-->]");
+
         //animacja i sterowanie
         ObjectCreator objectCreator = new ObjectCreator(pane,ball,batDown,batUp,trap,linia,linia2,point,textScoreUp,textScoreDown,textTimer,controlsUp,controlsDown);
         textScoreUp.textProperty().bind(scoreUp.asString("Score: [%d]"));
